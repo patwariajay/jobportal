@@ -1,5 +1,6 @@
 package com.jobportal.dto;
 
+import com.jobportal.entity.User;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -11,7 +12,7 @@ import lombok.*;
 @AllArgsConstructor
 public class UserDto {
 
-	private String id;
+	private Long id;
 	@NotBlank(message = "Name is required")
 	private String name;
 
@@ -28,4 +29,7 @@ public class UserDto {
 	@NotNull(message = "Account type is required")
 	private AccountType accountType;
 
+	public User toEntity() {
+		return new User(this.id,this.name,this.email,this.password,this.accountType);
+	}
 }

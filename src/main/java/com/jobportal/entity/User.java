@@ -1,5 +1,6 @@
 package com.jobportal.entity;
 
+import com.jobportal.dto.UserDto;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -14,10 +15,14 @@ import com.jobportal.dto.AccountType;
 public class User {
 
 	@Id
-	private String id;
+	private Long id;
 	private String name;
 	@Indexed(unique = true)
 	private String email;
 	private String password;
 	private AccountType accountType;
+
+	public UserDto toDto() {
+		return new UserDto(this.id,this.name,this.email,this.password,this.accountType);
+	}
 }

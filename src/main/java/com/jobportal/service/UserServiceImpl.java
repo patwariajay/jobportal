@@ -1,5 +1,6 @@
 package com.jobportal.service;
 
+import com.jobportal.utility.SequenceGeneratorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,19 +16,15 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepository userRepository;
 
+	@Autowired
+	private SequenceGeneratorService sequenceGenerator;
+
 	@Override
 	public UserDto registerUser(UserDto userDto) {
-		if (userRepository.existsByEmail(userDto.getEmail())) {
-			throw new RuntimeException("Email already registered");
-		}
-
-		User user = new User();
-		BeanUtils.copyProperties(userDto, user);
+		userDto.setId(sequenceGenerator.generateSequence("user_sequence") + 999); // start from 1000
+		User user = userDto.toEntity();
 		user = userRepository.save(user);
-
-		UserDto savedDto = new UserDto();
-		BeanUtils.copyProperties(user, savedDto);
-		return savedDto;
+		return user.toDto();
 	}
 
 	
