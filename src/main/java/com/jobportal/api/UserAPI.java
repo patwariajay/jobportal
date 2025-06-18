@@ -1,5 +1,6 @@
 package com.jobportal.api;
 
+import com.jobportal.dto.LoginDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,5 +31,12 @@ public ResponseEntity<UserDto> registerUser (@RequestBody @Valid UserDto userDto
 	UserDto registeredUser = userService.registerUser(userDto);
 	return new ResponseEntity<>(registeredUser, HttpStatus.CREATED);
 }
+
+@PostMapping("/login")
+public ResponseEntity<UserDto> loginUser (@RequestBody LoginDto LoginDto){
+	UserDto registeredUser = userService.loginUser(LoginDto);
+	return new ResponseEntity<>(registeredUser, HttpStatus.OK);
+}
+
 
 }
